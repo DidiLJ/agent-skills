@@ -1,6 +1,6 @@
 ---
 name: tripo-asset-kit
-description: Produce a 3D game asset AND its separated parts (construction kit, vehicle parts, destructible pieces) with Tripo Studio from a tight exploded-view reference image, then inspect, prepare, optimise and integrate it in a game engine (Godot-oriented: mobile budgets, one material, real scale, destruction-ready parts). Use for any building, building kit, vehicle or multi-part prop made with Tripo, in any project, and before touching Tripo exports.
+description: 'Produce a 3D game asset AND its separated parts (construction kit, vehicle parts, destructible pieces) with Tripo Studio from a tight exploded-view reference image, then inspect, prepare, optimise and integrate it in a game engine (Godot-oriented: mobile budgets, one material, real scale, destruction-ready parts). Use for any building, building kit, vehicle or multi-part prop made with Tripo, in any project, and before touching Tripo exports.'
 ---
 
 # Tripo asset + kit from an exploded view

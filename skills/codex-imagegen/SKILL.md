@@ -1,6 +1,6 @@
 ---
 name: codex-imagegen
-description: Generate raster images (game icons, UI mockups, textures, concept art, sprites, transparent cutouts) through the OpenAI Codex CLI's built-in image_gen tool, then retrieve and inspect them yourself. Use whenever a task needs an AI-generated bitmap, the user asks for an image, a visual mockup or an icon, or another agent without an image tool (e.g. a Devin agent: the Devin CLI has no image tool, tested 2026-10-06) needs images. Do not use for vector/SVG or code-drawn visuals, or to edit an existing editable source asset.
+description: 'Generate raster images (game icons, UI mockups, textures, concept art, sprites, transparent cutouts) through the OpenAI Codex CLI''s built-in image_gen tool, then retrieve and inspect them yourself. Use whenever a task needs an AI-generated bitmap, the user asks for an image, a visual mockup or an icon, or another agent without an image tool (e.g. a Devin agent: the Devin CLI has no image tool, tested 2026-10-06) needs images. Do not use for vector/SVG or code-drawn visuals, or to edit an existing editable source asset.'
 ---
 
 # Codex image generation

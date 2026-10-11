@@ -1,6 +1,6 @@
 ---
 name: mobile-game-check
-description: Final mobile-first checklist for any Godot game or lab unit (reference device: a mid-range Android phone in landscape). Run it before declaring a unit done, before handing a build to a reviewer or the user, and before reporting "it works". Covers touch AND mouse/keyboard input, web export, Android build, phone-sized display and performance budgets, with evidence.
+description: 'Final mobile-first checklist for any Godot game or lab unit (reference device: a mid-range Android phone in landscape). Run it before declaring a unit done, before handing a build to a reviewer or the user, and before reporting "it works". Covers touch AND mouse/keyboard input, web export, Android build, phone-sized display and performance budgets, with evidence.'
 ---
 
 # Mobile-first game check
