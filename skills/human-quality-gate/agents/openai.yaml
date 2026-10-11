@@ -1,0 +1,8 @@
+interface:
+  display_name: Human Quality Gate
+  short_description: Audit every view before delivery
+  default_prompt: >-
+    Use $human-quality-gate to inspect every rendered view, apply the relevant
+    Impeccable passes, remove AI-slop copy and meta UI wording, and fix all
+    actionable UX, UI, content, consistency, and responsive defects before
+    delivery.
