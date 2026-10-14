@@ -7,12 +7,13 @@ description: 'Produce a 3D game asset AND its separated parts (construction kit,
 
 General method (any project, any agent). Project paths and tool names below are examples from one reference implementation: use the equivalent tools of your project (see its agent instructions) and adapt the paths and budgets.
 
-Status (10 Oct 2026): method validated on two assets (car: 17 parts, 21 193 triangles; building: 10 parts, 20 188 triangles), both prepared and merged, then run end to end on a kit pavilion (17 expected parts -> 17 parts, 19 973 triangles, 1 material; full chain 130 credits: generate 60 + retopo 40 + fill 0 + texture 30). Steps marked **(to complete)** still need a measured run; update this file with the numbers when you get them.
+Status (14 Oct 2026): the account owner's chain is **Smart Mesh, Quad, 4 polycounts, Segment Simple, Smart UV, Texture 8K** (section 3); the earlier HD Model route below was validated on 10 Oct and stays the fallback. Status (10 Oct 2026): method validated on two assets (car: 17 parts, 21 193 triangles; building: 10 parts, 20 188 triangles), both prepared and merged, then run end to end on a kit pavilion (17 expected parts -> 17 parts, 19 973 triangles, 1 material; full chain 130 credits: generate 60 + retopo 40 + fill 0 + texture 30). Steps marked **(to complete)** still need a measured run; update this file with the numbers when you get them.
 
 Read first, if the project has them: its lessons file (asset import and physics sections), its modular-building practice sheet, its asset pipeline and Tripo workflow documents.
 
 ## Hard rules
-- Tripo runs in a Chrome session already logged in to Tripo Studio (Claude in Chrome), in your own tab. Only the lead agent, or an agent explicitly delegated by the account owner. Never touch the user's other tabs.
+- Tripo runs in a browser session already logged in to Tripo Studio, in your own tab. Only the lead agent, or an agent explicitly delegated by the account owner. Never touch the user's other tabs.
+- **Check the upload path first.** The reference image must reach Tripo's file input. Browser automation with a real file-upload call (e.g. Claude in Chrome `file_upload` with a local path) works. Some embedded agent browsers cannot: they do not let the agent drive the native file dialog, they block requests from a public page to `localhost`, and a synthetic Ctrl+V fires no paste event (all measured 14 Oct 2026). Test one upload before preparing a batch, and do not open public tunnels or other workarounds: use a browser that can upload, or ask the account owner.
 - Read the credit quote on the button and the balance before every click. Stop if the balance would go below the credit floor set by the account owner (example: **10 000**). Log every spend and every export in a ledger file next to the raw exports (e.g. `<raw assets folder>/tripo/LEDGER.md`). Privacy **Private** on every generation.
 - Provenance for every committed asset: source (who made it, tool, date, method, settings), SHA-256 of the source and of every prepared file, licence line. Git LFS for glb/png/jpg. Follow the project's content and licence rules (e.g. SFW store builds; some tools have licences that exclude regions or uses, such as Hunyuan endpoints for EU users or SMPL-based tools: check before using one).
 - Masters (4K/8K exports, raw Tripo files) stay outside git in a raw-assets folder (e.g. `<raw assets folder>/tripo/exports/`).
@@ -23,8 +24,12 @@ Read first, if the project has them: its lessons file (asset import and physics 
 - Write the expected part list (name, count, size on the grid) before generating: it is the acceptance list for every later step.
 
 ## 2. Exploded reference image (Codex)
+- **Two prompts from the account owner (14 Oct 2026)**, both run on ONE reference image of the whole asset (a full building, vehicle or prop, ideally a three-quarter view):
+  - `references/prompt-kit-sheet.md`: a construction-kit sheet with exactly ONE instance of each unique module (walls, corners, walls with openings, roof sections, columns, standalone features), spaced on a plain neutral background, no annotation. For reusable modular kits: every module is generated once and reused by instancing.
+  - `references/prompt-exploded-spacing.md`: the same asset as an exploded assembly with clear gaps (about 4-6 % of the asset width) along the natural assembly directions, recognisable at a glance. For a specific building or object that must be reassembled exactly.
+  - Compare both on the same reference before a batch (part count, uniqueness, fidelity, separation measured as below). The verdict and the measured Tripo result go in the project's notes and here.
 - Tool: skill `codex-imagegen` (`gen.sh`). Prompt structure: `references/prompt-template.md`. Ultra photorealistic photograph wording; never write "3D model", "texture" or "render".
-- **Tight exploded view, read as ONE object.** Each part moves only a short distance outward along its own normal (gaps about 4-6 % of the assembled width), roof lifted straight up, translation only, nothing rotated toward the camera, one shared orthographic 3/4 camera, same scale. **Never a parts sheet, rows or a catalogue, never spread the parts afterwards:** a widely spaced image is read by Tripo as several objects and only one is generated (measured twice: exploded car -> central shell only; 12-module sheet -> one module).
+- **Tight exploded view, read as ONE object.** Each part moves only a short distance outward along its own normal (gaps about 4-6 % of the assembled width), roof lifted straight up, translation only, nothing rotated toward the camera, one shared orthographic 3/4 camera, same scale. With the HD Model route (Generate in Parts), never a parts sheet, rows or a catalogue, never spread the parts afterwards: a widely spaced image was read as several objects and only one was generated (measured twice on 10 Oct: exploded car -> central shell only; 12-module sheet -> one module). The kit-sheet prompt with the Smart Mesh + Segment chain is still to be measured **(to complete)**.
 - Transparent background, no glow, halo, text, arrows or shadow; empty window and door openings (no glass), no interior, no floor.
 - Generate 2-4 variants, open each at full size. Count parts: binarise the alpha and count connected components (must equal the expected part count; fewer = parts touching or hidden). Smallest gap in px. For kits, measure the front bay aspect.
 - Codex "transparent" output: subject alpha 250-254 (never 255) and 12-21 % of pixels partially transparent, also inside parts. Clean with a short PIL script (alpha < 128 -> 0, rest 255, edge colour fixed) that does **not** spread the parts apart (no `--spread`-style option). The Read tool ignores alpha: judge transparency with PIL, view on a grey composite.
@@ -32,6 +37,19 @@ Read first, if the project has them: its lessons file (asset import and physics 
 
 ## 3. Tripo Studio pipeline
 Copy the upload file into the session scratchpad first. Workspace `https://studio.tripo3d.ai/workspace/generate`.
+
+Account owner's chain (14 Oct 2026):
+
+| Step | Settings | Cost seen |
+|---|---|---|
+| Generate | Model > **Smart Mesh**, single image (the chosen reference), Topology **Quad** for everything that is not a human or rigged character (Triangle only for those), **Number of Generation 4**, Customize Poly Counts **500 / 5 000 / 10 000 / 25 000**, Privacy **Private**, AI model **P2.0** | 100 credits seen on the button for 4 generations |
+| Choose | Open the four results and keep the **lowest** polycount that still looks right at the game's viewing distance; take a higher one only where the low one loses visible detail | 0 |
+| Segment | Segment mode **Simple** (fastest cut into parts); check the part list against the expected module list | to record |
+| Smart UV | Run **Smart UV** for clean UVs; download the clean UV file if the project repaints or bakes | to record |
+| Texture | The **same** reference image(s) used for the generation, **Remove Lighting ON** (clean albedo for dynamic lighting), resolution **8K** (master; optimise at integration) | to record |
+| Export | GLB, file name = asset id; masters stay outside git | 0 |
+
+Previous route (HD Model, validated 10 Oct 2026; fallback when the chain above fails):
 
 | Step | Settings | Cost seen |
 |---|---|---|
@@ -41,7 +59,7 @@ Copy the upload file into the session scratchpad first. Workspace `https://studi
 | Texture | the reference image is pre-filled (keep the **same** exploded image), Texture Style None, **Remove Lighting ON** (clean albedo for dynamic lighting), resolution 8K (master) | 30 credits |
 | Export | GLB, **Pack UV ON** (one material, one atlas instead of one texture set per part: car 1 material + 3 maps instead of 17 materials + 51 maps), texture resolution **4K** (8K is "Current"; 4K is enough as a master), file name = asset id | 0 |
 
-- Do not use Smart UV: Tripo's texture step already makes the UVs; Smart UV only helps hand repainting.
+- Smart UV is part of the account owner's chain (14 Oct 2026). On the HD route, Tripo's texture step already made the UVs.
 - Export mechanics: Chrome downloads to `Downloads/Unconfirmed NNNNNN.crdownload` (the name is localised, e.g. "Non confirmé" on a French browser; the save dialog is invisible). Wait until its size is stable, copy it to `exports/<asset>.glb`, check the glTF header (`glTF`, version 2, length = file size). Pack UV makes the export 30-60 s slower.
 - Measured on the kit pavilion: bays came out about 15 % wider than tall (1.15 for 0.94 asked) although the reference measured about 0.9; ask for slightly TALLER bays in the image than the target.
 - After each Tripo step, look at the part list and the viewport before paying for the next one; stop at two failed attempts on the same part and fix in Blender instead.
