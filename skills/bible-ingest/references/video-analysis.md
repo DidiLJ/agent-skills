@@ -20,6 +20,8 @@ python <skill folder>/scripts/prepare_video.py "<url>" --out <work dir>/<video i
 3. **Contact sheets:** look at every sheet. Mark the moments that show settings, UI panels, numbers, code, diagrams, or before/after comparisons.
 4. **Full frames** for those moments: `ffmpeg -ss <seconds> -i video.mp4 -frames:v 1 frame.png`, cropped if the text is small (`-vf "crop=w:h:x:y,scale=2*iw:-1"`). Read the exact values from them.
 
+- If you cannot view the contact sheets (an image budget or tool limit), extract single frames at the timestamps the transcript points to, and around every on-screen number you plan to cite.
+
 ## 3. Gemini pass (if a Gemini video-capable CLI or API is available)
 
 If a `gemini-video-review` skill exists on this machine, read it: it holds the local command, the model and known quirks. The method:
@@ -39,6 +41,8 @@ the problems that appear and how they are handled, and any advice or recommendat
 Copy on-screen text exactly when it matters. Each item with an approximate timestamp in seconds from
 the start of THIS clip. Mark uncertain items as uncertain; do not invent. English, max 30 bullets.
 ```
+
+Run the calls in the foreground, or poll their output files: a call started in a background sub-shell can report "finished" before the model has answered.
 
 Timestamps come back relative to each part. Add the part's offset (from the script's summary) to get video time.
 
