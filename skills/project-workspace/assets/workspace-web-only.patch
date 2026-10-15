@@ -1151,10 +1151,10 @@ index 85e0535..7fea8d3 100644
  )
 diff --git a/src/styles/didi-workspace.css b/src/styles/didi-workspace.css
 new file mode 100644
-index 0000000..d00df13
+index 0000000..336c5d9
 --- /dev/null
 +++ b/src/styles/didi-workspace.css
-@@ -0,0 +1,147 @@
+@@ -0,0 +1,149 @@
 +:root {
 +  --sidebar-w: 276px;
 +  --text-muted: #9ba1ae;
@@ -1171,6 +1171,8 @@ index 0000000..d00df13
 +}
 +body::before, body::after { display: none; }
 +.app-layout { background: var(--bg); }
++/* The web reader is a direct child, unlike the desktop reader's flex wrapper. */
++.content > .markdown-reader { height: 100%; }
 +.app-layout button, .app-layout input, .app-layout select { font: inherit; }
 +.app-layout :is(button,a,input,select):focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; box-shadow: none; }
 +.app-layout button, .app-layout a { -webkit-tap-highlight-color: transparent; }

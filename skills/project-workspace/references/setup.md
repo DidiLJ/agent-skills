@@ -39,6 +39,7 @@ Copy the example configuration to `workspace.config.json` in the isolated checko
 
 - A fresh launch opens the project library without starting an agent/terminal service or restoring sessions. Selecting two configured projects shows their own sources and survives refresh.
 - A canonical document change is reflected after the supported refresh, without a copied second document. Branch/revision and evidence dates are visible or explicitly unknown.
+- Scroll a long Markdown document with the real wheel while pointing at both paragraphs and tables. Its reader must stay bounded by the visible content panel, and its scroll position must change in both directions. Scrolling an image gallery does not verify document scrolling.
 - A missing source yields a clear missing/stale indication, not fabricated content. A failed build is not replaced by an old successful badge without its date/revision.
 - Direct requests outside an allowed root, junction escapes and non-read methods are refused. An HTML source or embedded script does not execute in the viewer's origin.
 - Before/after/reference media open with the right labels and provenance. The game, its worktrees and other agents' processes remain unchanged.
