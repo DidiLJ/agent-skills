@@ -13,6 +13,7 @@ List them without installing: `npx skills add DidiLJ/agent-skills -l`.
 | Skill | What it does | Needs |
 |---|---|---|
 | `team-lead-workflow` | Run a project as a lead supervising AI agents: one team per domain and sandbox, waves by dependency, briefs, verification gates, bibles, git hygiene, reporting | an agent tool that can spawn subagents |
+| `project-workspace` | Keep a local multi-project workspace aligned with canonical decisions, documentation, references and evidence; optional web-only setup without an agent runner | an existing project and its local workspace configuration; Node.js/npm for setup |
 | `bible-ingest` | Turn links (videos, articles, repos) into a general game-dev knowledge bible plus a project bible, then a short report | `ffmpeg`, `ffprobe`, `yt-dlp` for videos; `gemini-video-review` optional |
 | `gemini-video-review` | Have Gemini watch a short clip and list motion defects with timestamps | Antigravity CLI `agy` signed in with a Google account |
 | `mobile-game-check` | Final mobile-first checklist for a Godot game unit: touch and mouse input, web export, phone display, performance, physics | Godot 4.x, an Android phone for measurements |

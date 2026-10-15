@@ -38,6 +38,7 @@ Agents cannot ask questions: tell them to choose the option that changes the lea
 
 ## 4. Knowledge and blockers
 
+- **Shared project view:** when a project workspace exists, use `project-workspace` for onboarding and milestone updates. Read its linked canonical sources and verify the actual branch/code; keep decisions and evidence in their owning files, not a second workspace-only truth.
 - **Bibles:** agents read the general knowledge bible and the project bible (if they exist) before starting.
 - **Lessons:** every report ends with a "Lessons" section. Curate those lessons into the project bible, and into the general bible when generic.
 - **Links from the user:** when the user shares links, ingest them with the `bible-ingest` skill if it is available.
